@@ -1,0 +1,19 @@
+.container {
+  height: 100vh;
+}
+
+.sidenav {
+  transition: width 0.2s ease;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.content {
+  padding: 20px;
+}
