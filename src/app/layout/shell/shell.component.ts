@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterModule  } from '@angular/router';
 
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -13,8 +13,7 @@ import { MatListModule } from '@angular/material/list';
   templateUrl: './shell.component.html',
   styleUrls: ['./shell.component.scss'],
   imports: [
-    RouterOutlet,
-    RouterLink,
+    RouterModule,
     MatSidenavModule,
     MatToolbarModule,
     MatButtonModule,
