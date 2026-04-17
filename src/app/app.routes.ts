@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 import { ShellComponent } from '../app/layout/shell/shell.component';
 import { DashboardComponent } from '../app/features/dashboard/dashboard.component';
-import { UsersComponent } from '../app/features/users/users.component';
 import { LoginComponent } from './features/auth/login/login.component';
 
 export const routes: Routes = [
@@ -18,7 +17,6 @@ export const routes: Routes = [
     component: ShellComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'users', component: UsersComponent },
 
       {
         path: 'clientes',
@@ -36,6 +34,24 @@ export const routes: Routes = [
         path: 'vehiculos',
         loadChildren: () =>
           import('./vehiculos/vehiculos.module').then(m => m.VehiculosModule)
+      },
+
+      {
+        path: 'asegurados',
+        loadChildren: () =>
+          import('./asegurado/asegurado.module').then(m => m.AseguradoModule)
+      },
+
+      {
+        path: 'empresas',
+        loadChildren: () =>
+          import('./empresa/empresa.module').then(m => m.EmpresaModule)
+      },
+
+      {
+        path: 'peritajes',
+        loadChildren: () =>
+          import('./peritaje/peritaje.module').then(m => m.PeritajeModule)
       }
     ]
   }
