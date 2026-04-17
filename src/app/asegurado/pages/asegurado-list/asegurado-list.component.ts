@@ -1,12 +1,98 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { AseguradoService } from '../../services/asegurado.service';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { Asegurado } from 'src/app/dto/asegurado';
+import { CitacionVehiculo } from 'src/app/dto/citacion_vehiculo';
+import { Vehiculo } from 'src/app/dto/vehiculo';
 
 @Component({
   selector: 'app-asegurado-list',
   standalone: true,
-  imports: [],
+  imports: [MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatIconModule,
+    CommonModule,
+    MatCardModule],
   templateUrl: './asegurado-list.component.html',
   styleUrl: './asegurado-list.component.scss'
 })
-export class AseguradoListComponent {
-
+export class AseguradoListComponent implements AfterViewInit {
+    displayedColumns: string[] = ['nombres', 'identificacion', 'empresa', 'direccion', 'fecha_creacion', 'acciones'];
+    dataSource = new MatTableDataSource<Asegurado>([]);
+    vehiculosDataSource = new MatTableDataSource<Vehiculo>([]);
+    citacionesDataSource = new MatTableDataSource<CitacionVehiculo>([]);
+  
+    totalElements = 0;
+    timeout: any;
+    pageSize = 10;
+    pageIndex = 0;
+    filtroIdentificacion: string = '';
+    aseguradoSeleccionado: any = null;
+    mostrarDetalle = false;
+  
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
+    constructor(private service: AseguradoService) {}
+  
+    ngAfterViewInit() {
+      this.cargarDatos();
+    }
+  
+    cargarDatos() {
+      this.service.listarAsegurados(
+        this.pageIndex,
+        this.pageSize,
+        this.filtroIdentificacion
+      ).subscribe(res => {
+        this.dataSource.data = res;
+        console.log(this.dataSource.data);
+      });
+    }
+  
+    buscar() {
+      this.pageIndex = 0;
+      this.cargarDatos();
+    }
+  
+    onPageChange(event: PageEvent) {
+      this.pageIndex = event.pageIndex;
+      this.pageSize = event.pageSize;
+      this.cargarDatos();
+    }
+  
+    buscarAsegurado() {
+      clearTimeout(this.timeout);
+  
+      this.timeout = setTimeout(() => {
+        this.buscar();
+      }, 400);
+    }
+  
+    limpiar() {
+      this.filtroIdentificacion = '';
+      this.buscar();
+    }
+  
+    verDetalle(asegurado: any) {
+      this.aseguradoSeleccionado = asegurado;
+      this.vehiculosDataSource.data = asegurado.vehiculos || [];
+      this.mostrarDetalle = true;
+    }
+  
+    volver() {
+      this.mostrarDetalle = false;
+      this.aseguradoSeleccionado = null;
+    }
 }
