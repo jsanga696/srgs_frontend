@@ -1,12 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { RouterModule  } from '@angular/router';
 
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { finalize } from 'rxjs/operators';
+import { LoadingService } from '../../services/loading.service';
 
 @Component({
   standalone: true,
@@ -20,14 +23,24 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    CommonModule
+    CommonModule,
+    MatProgressSpinnerModule
   ]
 })
 export class ShellComponent {
-
+  
   isCollapsed = false;
+  loading = false;
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
+  }
+
+  constructor(private loadingService: LoadingService) {}
+
+  ngOnInit() {
+    this.loadingService.loading$.subscribe(value => {
+      this.loading = value;
+    });
   }
 }

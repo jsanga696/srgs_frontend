@@ -12,6 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { CitacionVehiculo } from 'src/app/dto/citacion_vehiculo';
+import { LoadingService } from 'src/app/services/loading.service';
+import { finalize } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-lista-vehiculos',
@@ -30,7 +33,7 @@ import { CitacionVehiculo } from 'src/app/dto/citacion_vehiculo';
 })
 export class ListaVehiculosComponent implements AfterViewInit {
 
-  displayedColumns: string[] = ['placa', 'marca', 'modelo', 'color', 'anio', 'acciones'];
+  displayedColumns: string[] = ['placa', 'marca', 'modelo', 'color', 'propietario', 'acciones'];
   dataSource = new MatTableDataSource<Vehiculo>([]);
   citacionesDataSource = new MatTableDataSource<CitacionVehiculo>([]);
 
@@ -44,7 +47,7 @@ export class ListaVehiculosComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private service: VehiculosService) {}
+  constructor(private service: VehiculosService, private loadingService: LoadingService, private snack: MatSnackBar) {}
 
   ngAfterViewInit() {
     this.cargarDatos();
@@ -63,6 +66,31 @@ export class ListaVehiculosComponent implements AfterViewInit {
   buscar() {
     this.pageIndex = 0;
     this.cargarDatos();
+  }
+
+  buscarPlaca(){
+    this.loadingService.show();
+
+    this.service.consultarPorPlaca(this.vehiculoSeleccionado.placa)
+    .pipe(
+      finalize(() => this.loadingService.hide())
+    )
+    .subscribe({
+      next: (res) => {
+        this.vehiculoSeleccionado = res;
+        this.citacionesDataSource.data = this.vehiculoSeleccionado.citaciones || [];
+
+        if(this.vehiculoSeleccionado.citaciones.length == 0){
+          this.snack.open("Sin datos", 'OK', {
+              duration: 3000,
+              panelClass: ['snackbar-success']
+            });
+        }
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 
   onPageChange(event: PageEvent) {

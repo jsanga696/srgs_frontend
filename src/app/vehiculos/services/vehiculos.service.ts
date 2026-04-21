@@ -24,7 +24,8 @@ export class VehiculosService {
   }
 
   consultarPorPlaca(placa: string) {
-    return this.http.get<Vehiculo>(`${this.api}/atm/${placa}`);
+    
+    return this.http.get<Vehiculo>(`${this.api}/playwright/atm/${placa}`);
   }
 
   guardarVehiculo(data: Vehiculo) {

@@ -1,1 +1,197 @@
-<p>asegurado-form works!</p>
+<form [formGroup]="form" class="form-container">
+
+  <!-- ========================= -->
+  <!-- DATOS DEL ASEGURADO -->
+  <!-- ========================= -->
+  <mat-card>
+
+    <h2>Datos del asegurado</h2>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Identificación</mat-label>
+        <input matInput formControlName="identificacion">
+        <mat-error *ngIf="form.get('identificacion')?.invalid">
+          Campo obligatorio
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nombres</mat-label>
+        <input matInput formControlName="nombres">
+        <mat-error *ngIf="form.get('nombres')?.invalid">
+          Campo obligatorio
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>País</mat-label>
+        <input matInput formControlName="pais">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Provincia</mat-label>
+        <input matInput formControlName="provincia">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Ciudad</mat-label>
+        <input matInput formControlName="ciudad">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Dirección</mat-label>
+      <input matInput formControlName="direccion">
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Celular</mat-label>
+        <input matInput formControlName="celular">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+          Email inválido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Empresa</mat-label>
+      <mat-select formControlName="empresa">
+        <mat-option *ngFor="let e of empresas" [value]="e.id">
+          {{ e.nombre }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('empresa')?.invalid">
+        Seleccione una empresa
+      </mat-error>
+    </mat-form-field>
+
+    <div class="form-row">
+      <mat-checkbox formControlName="activo">Activo</mat-checkbox>
+      <mat-checkbox formControlName="esPersonaNatural">Persona Natural</mat-checkbox>
+    </div>
+
+  </mat-card>
+  
+  <mat-card>
+
+    <div class="vehiculos-header">
+      <h2>Vehículos</h2>
+
+      <button 
+        type="button"
+        mat-raised-button 
+        color="primary"
+        (click)="agregarVehiculo()">
+        + Agregar vehículo
+      </button>
+    </div>
+
+    <div formArrayName="vehiculos">
+
+      <div 
+        *ngFor="let v of vehiculos.controls; let i = index" 
+        [formGroupName]="i"
+        class="vehiculo-item">
+
+        <mat-card class="vehiculo-card">
+
+          <div class="vehiculo-title">
+            <span>Vehículo {{ i + 1 }}</span>
+
+            <button 
+              type="button"
+              mat-icon-button 
+              color="warn"
+              (click)="eliminarVehiculo(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Placa</mat-label>
+              <input matInput formControlName="placa">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Marca</mat-label>
+              <input matInput formControlName="marca">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Modelo</mat-label>
+              <input matInput formControlName="modelo">
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Año</mat-label>
+              <input matInput formControlName="anio">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Color</mat-label>
+              <input matInput formControlName="color">
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Matrícula</mat-label>
+              <input matInput formControlName="fechaMatricula" type="date">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha Caducidad</mat-label>
+              <input matInput formControlName="fechaCaducidad" type="date">
+            </mat-form-field>
+          </div>
+
+        </mat-card>
+
+      </div>
+
+    </div>
+
+  </mat-card>
+
+  <!-- ========================= -->
+  <!-- ACCIONES -->
+  <!-- ========================= -->
+  <div class="acciones">
+
+    <button 
+      type="button"
+      mat-stroked-button 
+      color="primary"
+      (click)="volver()">
+      Cancelar
+    </button>
+
+    <button 
+      type="button"
+      mat-raised-button 
+      color="accent"
+      (click)="guardar()"
+      [disabled]="form.invalid">
+      Guardar
+    </button>
+
+  </div>
+
+</form>

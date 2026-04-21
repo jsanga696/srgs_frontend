@@ -1,0 +1,39 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.vehiculos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vehiculo-card {
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.vehiculo-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+}

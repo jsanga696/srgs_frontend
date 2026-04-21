@@ -1,3 +1,4 @@
+import { Asegurado } from "./asegurado";
 import { CitacionVehiculo } from "./citacion_vehiculo";
 
 export interface Vehiculo {
@@ -6,9 +7,10 @@ export interface Vehiculo {
   marca: string;
   color: string;
   modelo: string;
-  anio: string;
+  anio_fabricacion: string;
   fechaMatricula: string;
   fechaCaducidad: string;
+  asegurado: Asegurado;
   citaciones: CitacionVehiculo[];
   
 }

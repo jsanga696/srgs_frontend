@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { Asegurado } from '../../dto/asegurado';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { PageResponse } from 'src/app/dto/page_response';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class AseguradoService {
         url += `&identificacion=${identificacion}`;
       }
   
-      return this.http.get<Asegurado[]>(url);
+      return this.http.get<PageResponse<Asegurado>>(url);
     }
   
     consultarPorIdentificacion(identificacion: string) {
@@ -28,7 +29,11 @@ export class AseguradoService {
     }
   
     guardarAsegurado(data: Asegurado) {
+      console.log(data)
       return this.http.post(`${this.api}/asegurados`, data);
     }
 
+    actualizar(id: string, data: any) {
+      return this.http.put(`${this.api}/asegurados/${id}`, data);
+    }
 }

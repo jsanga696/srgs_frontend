@@ -13,6 +13,9 @@ import { MatCardModule } from '@angular/material/card';
 import { Asegurado } from 'src/app/dto/asegurado';
 import { CitacionVehiculo } from 'src/app/dto/citacion_vehiculo';
 import { Vehiculo } from 'src/app/dto/vehiculo';
+import { Router } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { PageResponse } from 'src/app/dto/page_response';
 
 @Component({
   selector: 'app-asegurado-list',
@@ -24,7 +27,8 @@ import { Vehiculo } from 'src/app/dto/vehiculo';
     FormsModule,
     MatIconModule,
     CommonModule,
-    MatCardModule],
+    MatCardModule,
+    ReactiveFormsModule],
   templateUrl: './asegurado-list.component.html',
   styleUrl: './asegurado-list.component.scss'
 })
@@ -44,9 +48,19 @@ export class AseguradoListComponent implements AfterViewInit {
   
     @ViewChild(MatPaginator) paginator!: MatPaginator;
   
-    constructor(private service: AseguradoService) {}
+    constructor(private service: AseguradoService, private router: Router) {}
   
+    columnasVehiculos = [
+      'placa',
+      'marca',
+      'modelo',
+      'anio',
+      'color',
+      'acciones'
+    ];
+
     ngAfterViewInit() {
+      this.dataSource.paginator = this.paginator;
       this.cargarDatos();
     }
   
@@ -56,8 +70,8 @@ export class AseguradoListComponent implements AfterViewInit {
         this.pageSize,
         this.filtroIdentificacion
       ).subscribe(res => {
-        this.dataSource.data = res;
-        console.log(this.dataSource.data);
+        this.dataSource.data = res.data;
+        this.totalElements = res.total;
       });
     }
   
@@ -90,9 +104,17 @@ export class AseguradoListComponent implements AfterViewInit {
       this.vehiculosDataSource.data = asegurado.vehiculos || [];
       this.mostrarDetalle = true;
     }
+
+    irNuevo() {
+      this.router.navigate(['/asegurados/nuevo']);
+    }
   
     volver() {
       this.mostrarDetalle = false;
       this.aseguradoSeleccionado = null;
+    }
+
+    editar(v: Asegurado) {
+      this.router.navigate(['/asegurados/editar', v.id]);
     }
 }

@@ -14,6 +14,13 @@
           (keyup)="buscarAsegurado()"
         />
       </mat-form-field>
+
+      <button 
+        mat-stroked-button 
+        color="primary"
+        (click)="irNuevo()">
+        +
+      </button>
     </div>
 
     <div class="card-body">
@@ -49,6 +56,10 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
         <td mat-cell *matCellDef="let v">
 
+            <button mat-icon-button color="primary" (click)="editar(v)">
+            <mat-icon>edit</mat-icon>
+            </button>
+
             <button mat-icon-button color="primary" (click)="verDetalle(v)">
             <mat-icon>visibility</mat-icon>
             </button>
@@ -61,6 +72,13 @@
 
         </table>
 
+        <mat-paginator 
+          [length]="totalElements"
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]"
+          showFirstLastButtons
+          (page)="onPageChange($event)">
+        </mat-paginator>
     </div>
 
   </div>
@@ -82,37 +100,49 @@
 
     <h4>Aseguradora</h4>
 
+    <h3>{{ aseguradoSeleccionado.empresa.nombre }}</h3>
+
     <h4>Vehiculos</h4>
 
-    <table mat-table [dataSource]="citacionesDataSource">
+    <table mat-table [dataSource]="vehiculosDataSource">
 
-        <ng-container matColumnDef="descripcion">
-        <th mat-header-cell *matHeaderCellDef>Descripción</th>
-        <td mat-cell *matCellDef="let c">{{ c.descripcion }}</td>
+        <ng-container matColumnDef="placa">
+        <th mat-header-cell *matHeaderCellDef>Placa</th>
+        <td mat-cell *matCellDef="let c">{{ c.placa }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="entidad">
-        <th mat-header-cell *matHeaderCellDef>Entidad</th>
-        <td mat-cell *matCellDef="let c">{{ c.entidad }}</td>
+        <ng-container matColumnDef="marca">
+        <th mat-header-cell *matHeaderCellDef>Marca</th>
+        <td mat-cell *matCellDef="let c">{{ c.marca }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="fechaemision">
-        <th mat-header-cell *matHeaderCellDef>F. Emisión</th>
-        <td mat-cell *matCellDef="let c">{{ c.fechaEmision }}</td>
+        <ng-container matColumnDef="modelo">
+        <th mat-header-cell *matHeaderCellDef>Modelo</th>
+        <td mat-cell *matCellDef="let c">{{ c.modelo }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="fechavencimiento">
-        <th mat-header-cell *matHeaderCellDef>F. Venc.</th>
-        <td mat-cell *matCellDef="let c">{{ c.fechaVencimiento }}</td>
+        <ng-container matColumnDef="anio_fabricacion">
+        <th mat-header-cell *matHeaderCellDef>Año</th>
+        <td mat-cell *matCellDef="let c">{{ c.anio_fabricacion }}</td>
         </ng-container>
 
-        <ng-container matColumnDef="valor">
-        <th mat-header-cell *matHeaderCellDef>Valor</th>
-        <td mat-cell *matCellDef="let c">{{ c.valor }}</td>
+        <ng-container matColumnDef="color">
+        <th mat-header-cell *matHeaderCellDef>Color</th>
+        <td mat-cell *matCellDef="let c">{{ c.color }}</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="['descripcion', 'entidad', 'fechaemision', 'fechavencimiento', 'valor']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['descripcion', 'entidad', 'fechaemision', 'fechavencimiento', 'valor'];"></tr>
+        <ng-container matColumnDef="fechacaducidad">
+        <th mat-header-cell *matHeaderCellDef>F. Caducidad</th>
+        <td mat-cell *matCellDef="let c">{{ c.fechaCaducidad }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fechamatricula">
+        <th mat-header-cell *matHeaderCellDef>F. Matricula</th>
+        <td mat-cell *matCellDef="let c">{{ c.fechaMatricula }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula'];"></tr>
 
     </table>
 
