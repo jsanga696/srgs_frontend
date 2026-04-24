@@ -1,10 +1,9 @@
 import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AseguradoService } from '../../services/asegurado.service';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,7 +32,7 @@ import { PageResponse } from 'src/app/dto/page_response';
   styleUrl: './asegurado-list.component.scss'
 })
 export class AseguradoListComponent implements AfterViewInit {
-    displayedColumns: string[] = ['nombres', 'identificacion', 'empresa', 'direccion', 'fecha_creacion', 'acciones'];
+    displayedColumns: string[] = ['identificacion', 'nombres', 'empresa', 'direccion', 'fecha_creacion', 'acciones'];
     dataSource = new MatTableDataSource<Asegurado>([]);
     vehiculosDataSource = new MatTableDataSource<Vehiculo>([]);
     citacionesDataSource = new MatTableDataSource<CitacionVehiculo>([]);
@@ -99,10 +98,8 @@ export class AseguradoListComponent implements AfterViewInit {
       this.buscar();
     }
   
-    verDetalle(asegurado: any) {
-      this.aseguradoSeleccionado = asegurado;
-      this.vehiculosDataSource.data = asegurado.vehiculos || [];
-      this.mostrarDetalle = true;
+    verDetalle(v: Asegurado) {
+      this.router.navigate(['/asegurados/ver', v.id]);
     }
 
     irNuevo() {
@@ -117,4 +114,8 @@ export class AseguradoListComponent implements AfterViewInit {
     editar(v: Asegurado) {
       this.router.navigate(['/asegurados/editar', v.id]);
     }
+
+    verDetalleVehiculo(id: string) {
+    this.router.navigate(['/vehiculos/ver', id]);
+  }
 }

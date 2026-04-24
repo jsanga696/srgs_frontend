@@ -3,6 +3,7 @@ import { CitacionVehiculo } from "./citacion_vehiculo";
 
 export interface Vehiculo {
 
+  id: string;
   placa: string;
   marca: string;
   color: string;

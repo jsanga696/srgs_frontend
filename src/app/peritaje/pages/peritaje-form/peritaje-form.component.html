@@ -1,1 +1,155 @@
-<p>peritaje-form works!</p>
+<h2>{{ esEdicion ? 'Editar peritaje' : 'Nuevo peritaje' }}</h2>
+
+<form [formGroup]="form">
+
+    <mat-form-field appearance="outline" class="full-width">
+
+    <mat-label>Siniestro</mat-label>
+
+    <input matInput 
+            [formControl]="siniestroCtrl"
+            [matAutocomplete]="auto">
+
+    <mat-autocomplete #auto="matAutocomplete"
+                        [displayWith]="displaySiniestro"
+                        (optionSelected)="seleccionarSiniestro($event)">
+
+        <mat-option *ngFor="let a of siniestrosFiltrados"
+                    [value]="a">
+        {{ a.identificacion_asegurado }} - {{ a.nombre_asegurado }}
+        </mat-option>
+
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  <!-- -->
+  <mat-form-field appearance="outline" class="full-width">
+
+    <mat-label>Asegurado</mat-label>
+    <input matInput 
+          formControlName="nombre_asegurado" readonly>
+
+  </mat-form-field>
+
+  <!-- VEHICULO -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Placa</mat-label>
+
+    <input matInput 
+          formControlName="placaVehiculo" readonly>
+
+  </mat-form-field>
+
+  <!-- PERITO -->
+  <mat-form-field appearance="outline" class="full-width">
+
+    <mat-label>Perito</mat-label>
+
+    <input matInput 
+            [formControl]="peritoCtrl"
+            [matAutocomplete]="autoPerito">
+
+    <mat-autocomplete #autoPerito="matAutocomplete"
+                        [displayWith]="displayPerito"
+                        (optionSelected)="seleccionarPerito($event)">
+
+        <mat-option *ngFor="let a of peritosFiltrados"
+                    [value]="a">
+        {{ a.identificacion }} - {{ a.nombres }}
+        </mat-option>
+
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Fecha y hora</mat-label>
+    <input matInput 
+          type="datetime-local" 
+          formControlName="fecha">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Detalles Siniestro</mat-label>
+    <textarea matInput formControlName="detalles_siniestro"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Detalles Peritaje</mat-label>
+    <textarea matInput formControlName="detalles"></textarea>
+  </mat-form-field>
+
+  <mat-checkbox formControlName="personasHeridas">
+    Personas Heridas
+  </mat-checkbox>
+
+  <mat-checkbox formControlName="necesitaGrua">
+    Necesita Grúa
+  </mat-checkbox>
+
+  <mat-checkbox formControlName="esPersonaNatural">
+    Es Persona Natural
+  </mat-checkbox>
+
+  <hr class="divider">
+
+  <mat-checkbox formControlName="procede">
+    Procede Peritaje
+  </mat-checkbox>
+
+  <hr class="divider">
+
+  <input 
+    type="file" 
+    hidden 
+    #fileInput
+    multiple 
+    (change)="onFileSelected($event)"
+    [disabled]="!form.get('nombre_asegurado')?.value"
+    />
+
+    <button 
+    mat-raised-button 
+    color="primary"
+    (click)="fileInput.click()"
+    [disabled]="!form.get('nombre_asegurado')?.value">
+
+    <mat-icon>upload</mat-icon>
+    Seleccionar archivos
+
+    </button>
+
+    <div class="preview-container">
+
+    <div class="preview-card" *ngFor="let p of previews; let i = index">
+
+        <!-- Imagen -->
+        <img *ngIf="p.file.type.startsWith('image')" [src]="p.url" />
+
+        <!-- PDF / otros -->
+        <div *ngIf="!p.file.type.startsWith('image')" class="file-icon">
+        📄 {{ p.file.name }}
+        </div>
+
+        <!-- Botón eliminar -->
+        <button mat-icon-button color="warn" (click)="eliminarArchivo(i)">
+        <mat-icon>delete</mat-icon>
+        </button>
+
+    </div>
+
+    </div>
+
+  <div class="actions">
+
+    <button mat-raised-button color="primary" [disabled]="!form.get('nombre_asegurado')?.value" (click)="guardar()">
+      Guardar
+    </button>
+
+    <button mat-button routerLink="/peritajes">
+      Cancelar
+    </button>
+  </div>
+
+</form>

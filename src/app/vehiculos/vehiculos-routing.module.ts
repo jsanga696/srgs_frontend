@@ -6,7 +6,8 @@ import { FormVehiculosComponent } from './pages/form-vehiculos/form-vehiculos.co
 const routes: Routes = [
   { path: '', component: ListaVehiculosComponent },
   { path: 'nuevo', component: FormVehiculosComponent },
-  { path: 'editar/:id', component: FormVehiculosComponent }
+  { path: 'editar/:id', component: FormVehiculosComponent },
+  { path: 'ver/:id', component: FormVehiculosComponent }
 ];
 
 @NgModule({

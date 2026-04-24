@@ -1,8 +1,5 @@
-<form [formGroup]="form" class="form-container">
+<form *ngIf="modoVer === false" [formGroup]="form" class="form-container">
 
-  <!-- ========================= -->
-  <!-- DATOS DEL ASEGURADO -->
-  <!-- ========================= -->
   <mat-card>
 
     <h2>Datos del asegurado</h2>
@@ -160,7 +157,18 @@
               <mat-label>Fecha Caducidad</mat-label>
               <input matInput formControlName="fechaCaducidad" type="date">
             </mat-form-field>
+
+            <div class="form-row align-center">
+
+              <mat-form-field appearance="outline">
+                <mat-label>Fecha Caducidad</mat-label>
+                <input matInput formControlName="fechaCaducidad" type="date">
+              </mat-form-field>
+
+            </div>
           </div>
+
+          
 
         </mat-card>
 
@@ -195,3 +203,81 @@
   </div>
 
 </form>
+
+<div *ngIf="modoVer === true" class="detalle-container">
+  
+  <mat-card *ngIf="modoVer" class="detalle-card">
+
+  <h3>{{ aseguradoSeleccionado?.identificacion }} - {{ aseguradoSeleccionado?.nombres }}</h3>
+
+  <p><b>Fecha Ingreso:</b> {{ aseguradoSeleccionado?.fecha_ingreso }}</p>
+  <p><b>Teléfono:</b> {{ aseguradoSeleccionado?.telefono }}</p>
+  <p><b>Celular:</b> {{ aseguradoSeleccionado?.celular }}</p>
+  <p><b>Dirección:</b> {{ aseguradoSeleccionado?.direccion }}</p>
+
+  <h4>Aseguradora</h4>
+
+  <h3>{{ aseguradoSeleccionado?.empresa?.nombre }}</h3>
+
+  <h4>Vehiculos</h4>
+
+  <table mat-table [dataSource]="vehiculosDataSource">
+
+      <ng-container matColumnDef="placa">
+      <th mat-header-cell *matHeaderCellDef>Placa</th>
+      <td mat-cell *matCellDef="let c">{{ c.placa }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="marca">
+      <th mat-header-cell *matHeaderCellDef>Marca</th>
+      <td mat-cell *matCellDef="let c">{{ c.marca }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="modelo">
+      <th mat-header-cell *matHeaderCellDef>Modelo</th>
+      <td mat-cell *matCellDef="let c">{{ c.modelo }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="anio_fabricacion">
+      <th mat-header-cell *matHeaderCellDef>Año</th>
+      <td mat-cell *matCellDef="let c">{{ c.anio_fabricacion }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="color">
+      <th mat-header-cell *matHeaderCellDef>Color</th>
+      <td mat-cell *matCellDef="let c">{{ c.color }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechacaducidad">
+      <th mat-header-cell *matHeaderCellDef>F. Caducidad</th>
+      <td mat-cell *matCellDef="let c">{{ c.fechaCaducidad }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="fechamatricula">
+      <th mat-header-cell *matHeaderCellDef>F. Matricula</th>
+      <td mat-cell *matCellDef="let c">{{ c.fechaMatricula }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+
+        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+
+        <td mat-cell *matCellDef="let c">
+          <button 
+            type="button"
+            mat-mini-fab 
+            color="primary"
+            (click)="verDetalleVehiculo(c.id)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+        </td>
+
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones'];"></tr>
+
+    </table>
+
+  </mat-card>
+</div>

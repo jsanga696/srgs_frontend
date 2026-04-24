@@ -15,6 +15,7 @@ import { CitacionVehiculo } from 'src/app/dto/citacion_vehiculo';
 import { LoadingService } from 'src/app/services/loading.service';
 import { finalize } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-vehiculos',
@@ -47,7 +48,7 @@ export class ListaVehiculosComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private service: VehiculosService, private loadingService: LoadingService, private snack: MatSnackBar) {}
+  constructor(private service: VehiculosService, private loadingService: LoadingService, private snack: MatSnackBar, private router: Router) {}
 
   ngAfterViewInit() {
     this.cargarDatos();
@@ -59,7 +60,8 @@ export class ListaVehiculosComponent implements AfterViewInit {
       this.pageSize,
       this.filtroPlaca
     ).subscribe(res => {
-      this.dataSource.data = res;
+      this.dataSource.data = res.data;
+      this.totalElements = res.total;
     });
   }
 
@@ -113,9 +115,10 @@ export class ListaVehiculosComponent implements AfterViewInit {
   }
 
   verDetalle(vehiculo: any) {
-    this.vehiculoSeleccionado = vehiculo;
+    /*this.vehiculoSeleccionado = vehiculo;
     this.citacionesDataSource.data = vehiculo.citaciones || [];
-    this.mostrarDetalle = true;
+    this.mostrarDetalle = true;*/
+    this.router.navigate(['/vehiculos/ver', vehiculo.id]);
   }
 
   volver() {

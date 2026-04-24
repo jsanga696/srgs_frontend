@@ -6,7 +6,8 @@ import { AseguradoListComponent } from './pages/asegurado-list/asegurado-list.co
 const routes: Routes = [
     { path: '', component: AseguradoListComponent },
     { path: 'nuevo', component: AseguradoFormComponent },
-    { path: 'editar/:id', component: AseguradoFormComponent }
+    { path: 'editar/:id', component: AseguradoFormComponent },
+    { path: 'ver/:id', component: AseguradoFormComponent }
 ];
 
 @NgModule({

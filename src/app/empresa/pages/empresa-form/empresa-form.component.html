@@ -1,1 +1,69 @@
-<p>empresa-form works!</p>
+<h2>{{ esEdicion ? 'Editar aseguradora' : 'Nueva aseguradora' }}</h2>
+
+<form [formGroup]="form">
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>RUC</mat-label>
+    <input matInput formControlName="ruc">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Razón social</mat-label>
+    <input matInput formControlName="razon_social">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Teléfono</mat-label>
+    <input matInput formControlName="telefono">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Celular</mat-label>
+    <input matInput formControlName="celular">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Dirección</mat-label>
+    <input matInput formControlName="direccion">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>País</mat-label>
+    <input matInput formControlName="pais">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Provincia</mat-label>
+    <input matInput formControlName="provincia">
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Ciudad</mat-label>
+    <input matInput formControlName="ciudad">
+  </mat-form-field>
+
+  <mat-checkbox formControlName="activo">
+    Activo
+  </mat-checkbox>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" (click)="guardar()">
+      Guardar
+    </button>
+
+    <button mat-button routerLink="/empresas">
+      Cancelar
+    </button>
+  </div>
+
+</form>

@@ -13,9 +13,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { EmpresaService } from 'src/app/empresa/services/empresa.service';
 import { MatTableDataSource } from '@angular/material/table';
-import { Empresa } from 'src/app/dto/empresa';
+import { MatTableModule } from '@angular/material/table';
+import { Asegurado } from 'src/app/dto/asegurado';
 import { AseguradoService } from '../../services/asegurado.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Vehiculo } from 'src/app/dto/vehiculo';
 
 @Component({
   selector: 'app-asegurado-form',
@@ -30,7 +32,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatCardModule,
     MatCheckboxModule,
     MatIconModule,
-    MatSnackBarModule],
+    MatSnackBarModule,
+    MatTableModule],
   templateUrl: './asegurado-form.component.html',
   styleUrl: './asegurado-form.component.scss'
 })
@@ -40,6 +43,9 @@ export class AseguradoFormComponent implements OnInit {
   empresas: any[] = [];
   id: string | null = null;
   esEdicion = false;
+  modoVer = false;
+  aseguradoSeleccionado ?: Asegurado;
+  vehiculosDataSource = new MatTableDataSource<Vehiculo>([]);
 
   columnasVehiculos = [
     'placa',
@@ -85,11 +91,22 @@ export class AseguradoFormComponent implements OnInit {
       this.esEdicion = true;
       this.cargarDatos(this.id);
     }
+
+    const url = this.router.url;
+
+    if (url.includes('ver')) {
+      this.modoVer = true;
+    } else if (url.includes('editar')) {
+      this.esEdicion = true;
+    }
   }
   
   cargarDatos(id: string) {
     this.aseguradoService.consultarPorIdentificacion(id)
       .subscribe(data => {
+        this.aseguradoSeleccionado = data;
+        this.vehiculosDataSource.data = this.aseguradoSeleccionado.vehiculos || [];
+
         this.form.patchValue({
           ...data,
           empresa: data.empresa?.id
@@ -132,10 +149,6 @@ export class AseguradoFormComponent implements OnInit {
 
   agregarVehiculo() {
     this.vehiculos.push(this.crearVehiculoForm());
-  }
-
-  eliminarVehiculo(index: number) {
-    this.vehiculos.removeAt(index);
   }
 
   guardar() {
@@ -192,4 +205,11 @@ export class AseguradoFormComponent implements OnInit {
     this.router.navigate(['/asegurados']);
   }
 
+  eliminarVehiculo(index: number) {
+    this.vehiculos.removeAt(index);
+  }
+
+  verDetalleVehiculo(id: string) {
+    this.router.navigate(['/vehiculos/ver', id]);
+  }
 }

@@ -1,1 +1,121 @@
-<p>form-siniestros works!</p>
+<h2>{{ esEdicion ? 'Editar siniestro' : 'Nuevo siniestro' }}</h2>
+
+<form [formGroup]="form">
+
+  <!-- ASEGURADO -->
+  <mat-form-field appearance="outline" class="full-width">
+
+    <mat-label>Asegurado</mat-label>
+
+    <input matInput 
+            [formControl]="aseguradoCtrl"
+            [matAutocomplete]="auto">
+    
+            <!--
+      <button mat-icon-button 
+              matSuffix 
+              routerLink="/asegurados/nuevo"
+              type="button">
+        <mat-icon>add</mat-icon>
+      </button>-->
+
+    <mat-autocomplete #auto="matAutocomplete"
+                        [displayWith]="displayAsegurado"
+                        (optionSelected)="seleccionarAsegurado($event)">
+
+        <mat-option *ngFor="let a of aseguradosFiltrados"
+                    [value]="a">
+        {{ a.identificacion }} - {{ a.nombres }}
+        </mat-option>
+
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  <!-- VEHICULO -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Placa</mat-label>
+
+    <input matInput 
+          formControlName="placa">
+
+    <button mat-icon-button 
+            matSuffix 
+            (click)="buscarVehiculo()"
+            type="button">
+      <mat-icon>search</mat-icon>
+    </button>
+
+  </mat-form-field>
+
+  <!-- PERITO -->
+  <mat-form-field appearance="outline" class="full-width">
+
+    <mat-label>Perito</mat-label>
+
+    <input matInput 
+            [formControl]="peritoCtrl"
+            [matAutocomplete]="autoPerito">
+
+    <mat-autocomplete #autoPerito="matAutocomplete"
+                        [displayWith]="displayPerito"
+                        (optionSelected)="seleccionarPerito($event)">
+
+        <mat-option *ngFor="let a of peritosFiltrados"
+                    [value]="a">
+        {{ a.identificacion }} - {{ a.nombres }}
+        </mat-option>
+
+    </mat-autocomplete>
+
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Fecha y hora</mat-label>
+    <input matInput 
+          type="datetime-local" 
+          formControlName="fecha">
+  </mat-form-field>
+
+  <!-- UBICACION -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Ubicación</mat-label>
+    <input matInput formControlName="ubicacion">
+  </mat-form-field>
+
+  <!-- DETALLES -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Detalles</mat-label>
+    <textarea matInput formControlName="detalles"></textarea>
+  </mat-form-field>
+
+  <!-- CHECKS -->
+  <mat-checkbox formControlName="personasHeridas">
+    Personas heridas
+  </mat-checkbox>
+
+  <mat-checkbox formControlName="necesitaGrua">
+    Necesita grúa
+  </mat-checkbox>
+
+  <mat-checkbox formControlName="esPersonaNatural">
+    Es persona natural
+  </mat-checkbox>
+
+  <mat-checkbox formControlName="activo">
+    Activo
+  </mat-checkbox>
+
+  <!-- BOTONES -->
+  <div class="actions">
+
+    <button mat-raised-button color="primary" (click)="abrirConfirmacion(1)">
+      Guardar
+    </button>
+
+    <button mat-button routerLink="/siniestros">
+      Cancelar
+    </button>
+  </div>
+
+</form>

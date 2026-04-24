@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { Asegurado } from '../../dto/asegurado';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -15,25 +15,38 @@ export class AseguradoService {
   constructor(private http: HttpClient) { }
 
   listarAsegurados(page: number, size: number, identificacion?: string) {
-      let url = `${this.api}/asegurados?page=${page}&size=${size}`;
-  
-      if (identificacion) {
-        url += `&identificacion=${identificacion}`;
-      }
-  
-      return this.http.get<PageResponse<Asegurado>>(url);
-    }
-  
-    consultarPorIdentificacion(identificacion: string) {
-      return this.http.get<Asegurado>(`${this.api}/asegurados/${identificacion}`);
-    }
-  
-    guardarAsegurado(data: Asegurado) {
-      console.log(data)
-      return this.http.post(`${this.api}/asegurados`, data);
+    let url = `${this.api}/asegurados?page=${page}&size=${size}`;
+
+    if (identificacion) {
+      url += `&identificacion=${identificacion}`;
     }
 
-    actualizar(id: string, data: any) {
-      return this.http.put(`${this.api}/asegurados/${id}`, data);
+    return this.http.get<PageResponse<Asegurado>>(url);
+  }
+
+  consultarPorIdentificacion(identificacion: string) {
+    return this.http.get<Asegurado>(`${this.api}/asegurados/${identificacion}`);
+  }
+
+  listarAseguradosByName(nombres: string): Observable<Asegurado[]> {
+
+    let url = `${this.api}/asegurados?page=0&size=20`;
+
+    if (nombres) {
+      url += `&nombres=${encodeURIComponent(nombres)}`;
     }
+
+    return this.http.get<PageResponse<Asegurado>>(url)
+      .pipe(
+        map(resp => resp.data)
+      );
+  }
+
+  guardarAsegurado(data: Asegurado) {
+    return this.http.post(`${this.api}/asegurados`, data);
+  }
+
+  actualizar(id: string, data: any) {
+    return this.http.put(`${this.api}/asegurados/${id}`, data);
+  }
 }

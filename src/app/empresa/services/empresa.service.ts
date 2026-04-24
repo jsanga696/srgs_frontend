@@ -19,4 +19,16 @@ export class EmpresaService {
     return this.http.get<Empresa[]>(url);
 
   }
+
+  obtenerPorId(id: number){
+    return this.http.get<Empresa>(`${this.api}/empresas/${id}`);
+  }
+
+  guardarEmpresa(data: Empresa) {
+    return this.http.post(`${this.api}/empresas`, data);
+  }
+
+  actualizar(id: number, data: any) {
+    return this.http.put(`${this.api}/empresas/${id}`, data);
+  }
 }
