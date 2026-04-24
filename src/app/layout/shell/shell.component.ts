@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { finalize } from 'rxjs/operators';
 import { LoadingService } from '../../services/loading.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   standalone: true,
@@ -24,7 +25,8 @@ import { LoadingService } from '../../services/loading.service';
     MatIconModule,
     MatListModule,
     CommonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltipModule
   ]
 })
 export class ShellComponent {
@@ -34,6 +36,10 @@ export class ShellComponent {
 
   toggleSidebar() {
     this.isCollapsed = !this.isCollapsed;
+
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 200);
   }
 
   constructor(private loadingService: LoadingService) {}
@@ -42,5 +48,9 @@ export class ShellComponent {
     this.loadingService.loading$.subscribe(value => {
       this.loading = value;
     });
+  }
+
+  salir(){
+    console.log("Salida");
   }
 }

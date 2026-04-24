@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { PageResponse } from 'src/app/dto/page_response';
 import { Siniestro } from 'src/app/dto/siniestro';
 import { PeritajeService } from '../../services/peritaje.service';
+import { ConfirmDialogComponent } from '../../../layout/confirm_dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-peritaje-form',
@@ -221,8 +222,6 @@ export class PeritajeFormComponent implements OnInit {
       return;
     }
 
-    this.loadingService.show();
-
     const formValue = this.form.getRawValue();
 
     const formData = new FormData();
@@ -233,25 +232,45 @@ export class PeritajeFormComponent implements OnInit {
       formData.append('files', file);
     });
 
-    this.peritajesService.guardar(formData)
-      .pipe(
-          finalize(() => this.loadingService.hide())
-        )
-      .subscribe({
-        next: () => {
-          this.router.navigate(['/peritajes']);
-          this.snack.open("Guardado correctamente", 'OK', {
-                duration: 3000,
-                panelClass: ['snackbar-success']
-              });
-        },
-        error: err => {
-          console.error(err);
-          this.snack.open("Error al guardar datos", 'Error', {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '350px',
+        data: {
+          titulo: 'Confirmar',
+          mensaje: '¿Estás seguro de continuar?'
+        }
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.loadingService.show();
+          this.peritajesService.guardar(formData)
+          .pipe(
+              finalize(() => this.loadingService.hide())
+            )
+          .subscribe({
+            next: () => {
+              this.router.navigate(['/peritajes']);
+              this.snack.open("Guardado correctamente", 'OK', {
+                    duration: 3000,
+                    panelClass: ['snackbar-success']
+                  });
+            },
+            error: err => {
+              console.error(err);
+              this.snack.open("Error al guardar datos", 'Error', {
+                    duration: 3000,
+                    panelClass: ['snackbar-error']
+                  });
+            }
+        });       
+        } else {
+          this.snack.open("", 'Cancelado', {
                 duration: 3000,
                 panelClass: ['snackbar-error']
               });
         }
-    });
+      });
+      
+    
   }
 }

@@ -14,7 +14,7 @@ import { CitacionVehiculo } from 'src/app/dto/citacion_vehiculo';
 import { Vehiculo } from 'src/app/dto/vehiculo';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { PageResponse } from 'src/app/dto/page_response';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-asegurado-list',
@@ -27,6 +27,7 @@ import { PageResponse } from 'src/app/dto/page_response';
     MatIconModule,
     CommonModule,
     MatCardModule,
+    MatButtonModule,
     ReactiveFormsModule],
   templateUrl: './asegurado-list.component.html',
   styleUrl: './asegurado-list.component.scss'
@@ -42,6 +43,7 @@ export class AseguradoListComponent implements AfterViewInit {
     pageSize = 10;
     pageIndex = 0;
     filtroIdentificacion: string = '';
+    filtroNombres: string = '';
     aseguradoSeleccionado: any = null;
     mostrarDetalle = false;
   
@@ -67,15 +69,16 @@ export class AseguradoListComponent implements AfterViewInit {
       this.service.listarAsegurados(
         this.pageIndex,
         this.pageSize,
-        this.filtroIdentificacion
+        this.filtroIdentificacion,
+        this.filtroNombres
       ).subscribe(res => {
         this.dataSource.data = res.data;
         this.totalElements = res.total;
+        console.log(res)
       });
     }
   
     buscar() {
-      this.pageIndex = 0;
       this.cargarDatos();
     }
   

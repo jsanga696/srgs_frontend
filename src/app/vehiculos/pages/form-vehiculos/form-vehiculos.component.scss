@@ -1,0 +1,12 @@
+.search-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  color: #1976d2;
+  transition: transform 0.2s;
+}
+
+.search-icon:hover {
+  transform: scale(1.2);
+}

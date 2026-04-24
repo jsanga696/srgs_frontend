@@ -1,96 +1,11 @@
-.page-container {
-  padding: 24px 32px;
-}
-
-.title {
-  font-size: 32px;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-/* CARD estilo moderno */
-.card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  padding: 16px;
-}
-
-/* HEADER del card */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-
-/* Input elegante */
 .search-field {
-  width: 280px;
+  width: 220px;
+  font-size: 12px;
+  --mat-form-field-container-height: 40px;
+  --mat-form-field-container-vertical-padding: 6px;
+  margin-right: 5px;
 }
 
-mat-icon[matPrefix] {
-  position: relative;
-  top: -5px; /* ajusta según lo que necesites */
-}
-
-/* Compactar Material */
-::ng-deep .search-field .mat-mdc-text-field-wrapper {
-  height: 40px;
-  border-radius: 8px;
-}
-
-::ng-deep .search-field .mat-mdc-form-field-flex {
-  align-items: center;
-}
-
-::ng-deep .search-field input {
-  position: relative;
-  top: -5px;
-}
-
-/* Tabla más limpia */
-table {
-  width: 100%;
-}
-
-th {
-  font-weight: 600;
-}
-
-.detalle {
-  margin-top: 20px;
-  padding: 16px;
-  background: #fafafa;
-  border-radius: 10px;
-}
-
-.detalle-container {
-  padding: 20px;
-}
-
-.detalle-card {
-  margin-top: 10px;
-  padding: 16px;
-}
-
-.back-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-  background: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-  cursor: pointer;
+.search-field mat-icon {
   font-size: 18px;
-}
-
-.busqueda-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.label {
-  font-weight: 500;
 }

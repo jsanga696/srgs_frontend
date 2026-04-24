@@ -50,7 +50,6 @@ export class LoginComponent {
 
     console.log(username, password);
 
-    // 👉 redirigir
-    this.router.navigate(['/dashboard']);
+    this.router.navigate(['/peritajes']);
   }
 }

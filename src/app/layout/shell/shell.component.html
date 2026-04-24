@@ -24,29 +24,40 @@
 
     <mat-nav-list>
 
-      <a mat-list-item routerLink="/empresas">
-        <mat-icon matListItemIcon>person</mat-icon>
+      <a mat-list-item routerLink="/empresas" matTooltip="Empresas" matTooltipPosition="right"
+  matTooltipShowDelay="300">
+        <mat-icon matListItemIcon>markunread_mailbox</mat-icon>
         <span>Aseguradoras</span>
       </a>
 
-      <a mat-list-item routerLink="/asegurados">
+      <a mat-list-item routerLink="/asegurados" matTooltip="Asegurados" matTooltipPosition="right"
+  matTooltipShowDelay="300">
         <mat-icon matListItemIcon>person</mat-icon>
         <span>Asegurados</span>
       </a>
 
-      <a mat-list-item routerLink="/peritajes">
+      <a mat-list-item routerLink="/peritajes" matTooltip="Peritajes" matTooltipPosition="right"
+  matTooltipShowDelay="300">
         <mat-icon matListItemIcon>search</mat-icon>
         <span>Peritajes</span>
       </a>
 
-      <a mat-list-item routerLink="/siniestros">
-        <mat-icon matListItemIcon>person</mat-icon>
+      <a mat-list-item routerLink="/siniestros" matTooltip="Siniestros" matTooltipPosition="right"
+  matTooltipShowDelay="300">
+        <mat-icon matListItemIcon>local_hospital</mat-icon>
         <span>Siniestros</span>
       </a>
 
-      <a mat-list-item routerLink="/vehiculos">
-        <mat-icon matListItemIcon>person</mat-icon>
+      <a mat-list-item routerLink="/vehiculos" matTooltip="Vehículos" matTooltipPosition="right"
+  matTooltipShowDelay="300">
+        <mat-icon matListItemIcon>directions_car</mat-icon>
         <span>Vehiculos</span>
+      </a>
+
+      <a mat-list-item (click)="salir()" matTooltip="Salir" matTooltipPosition="right"
+  matTooltipShowDelay="300">
+        <mat-icon matListItemIcon>exit_to_app</mat-icon>
+        <span>Salir</span>
       </a>
 
     </mat-nav-list>

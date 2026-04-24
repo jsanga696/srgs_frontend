@@ -16,8 +16,12 @@ export class SiniestrosService {
   constructor(private http: HttpClient) { }
   
 
-  listarSiniestros(page: number, size: number, codigo?: string, estado?: string) {
+  listarSiniestros(page: number, size: number, nombres?: string, codigo?: string, estado?: string) {
     let url = `${this.api}/siniestros?page=${page}&size=${size}`;
+
+    if(nombres){
+      url = url + `&nombres=${nombres}`;
+    }
 
     if(codigo){
       url = url + `&codigo=${codigo}`;

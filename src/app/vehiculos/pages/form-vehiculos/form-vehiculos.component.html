@@ -14,11 +14,13 @@
     <p><b>Fecha Matrícula:</b> {{ vehiculoSeleccionado?.fechaMatricula }}</p>
 
     <div class="busqueda-container">
-      <label class="label"><b>Citaciones</b></label>
+      <label class="label"><b>Citaciones ATM</b></label>
 
-      <button mat-mini-fab color="primary" (click)="buscarPlaca(vehiculoSeleccionado?.placa)">
-        <mat-icon>search</mat-icon>
-      </button>
+      <mat-icon 
+        class="search-icon"
+        (click)="buscarPlaca(vehiculoSeleccionado?.placa)">
+        search
+      </mat-icon>
     </div>
 
     <table mat-table [dataSource]="citacionesDataSource">

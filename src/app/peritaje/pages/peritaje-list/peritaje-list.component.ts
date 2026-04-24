@@ -6,6 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PeritajeService } from '../../services/peritaje.service';
 import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/paginator';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-peritaje-list',
@@ -15,8 +19,12 @@ import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/p
     MatTableModule,
     MatButtonModule,
     MatIconModule,
+    FormsModule,
+    MatInputModule,
     MatPaginator, 
-    MatPaginatorModule],
+    MatFormFieldModule,
+    MatPaginatorModule,
+    ReactiveFormsModule],
   templateUrl: './peritaje-list.component.html',
   styleUrl: './peritaje-list.component.scss'
 })
@@ -29,16 +37,50 @@ export class PeritajeListComponent implements OnInit {
     
     displayedColumns = ['codigo', 'asegurado', 'vehiculo', 'perito', 'fecha', 'detalles', 'acciones'];
     dataSource: any[] = [];
+
+    filtroCodigo: string = '';
+    filtroAsegurado: string = '';
+    form: any;
   
-    constructor(private service: PeritajeService) {}
+    constructor(private service: PeritajeService, private fb: FormBuilder) {}
   
     ngOnInit() {
+      this.form = this.fb.group({
+        filtroCodigo: [''],
+        filtroAsegurado: ['']
+      });
+      
       this.cargar();
+
+      this.form.valueChanges
+        .pipe(debounceTime(400))
+        .subscribe((values: any) => {
+          this.pageIndex = 0;
+          this.buscarPeritajes(values);
+        });  
     }
   
+    buscarPeritajes(filtros: any) {
+      this.service.listarPeritajes(
+        this.pageIndex,
+        this.pageSize,
+        filtros.filtroCodigo,
+        filtros.filtroAsegurado
+      ).subscribe(data => {
+        this.dataSource = data.data;
+        this.totalElements = data.total;
+      });
+    }
+
     cargar() {
-      this.service.listarPeritajes(this.pageIndex,
-        this.pageSize).subscribe(data => {
+      const filtros = this.form.getRawValue();
+
+      this.service.listarPeritajes(
+        this.pageIndex,
+        this.pageSize,
+        filtros.filtroAsegurado,
+        filtros.filtroCodigo
+      ).subscribe(data => {
         this.dataSource = data.data;
         this.totalElements = data.total;
       });

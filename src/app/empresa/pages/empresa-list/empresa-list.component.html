@@ -1,8 +1,26 @@
-<div class="header-actions">
-  <button mat-raised-button color="primary" routerLink="/empresas/nuevo">
-    + Nueva aseguradora
-  </button>
-</div>
+<div class="page-container">
+
+  <div class="header">
+    <h4>Aseguradoras</h4>
+
+    <div class="card-header">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          placeholder="Buscar por nombre..."
+          [(ngModel)]="filtroNombre"
+        />
+      </mat-form-field>
+      
+      <button mat-raised-button color="primary"
+              routerLink="/empresas/nuevo">
+        Nuevo aseguradora
+      </button>
+    </div>    
+  </div>
+
+    <div class="card-body">
 
 <table mat-table [dataSource]="dataSource">
 
@@ -50,3 +68,5 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 </table>
+
+</div>

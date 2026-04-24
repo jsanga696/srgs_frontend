@@ -15,9 +15,17 @@ export class PeritajeService {
     constructor(private http: HttpClient) { }
     
   
-    listarPeritajes(page: number, size: number) {
+    listarPeritajes(page: number, size: number, codigo?: string, nombres?: string) {
       let url = `${this.api}/peritajes?page=${page}&size=${size}`;
   
+      if (codigo) {
+        url += `&codigo=${codigo}`;
+      }
+
+      if (nombres) {
+        url += `&nombres=${nombres}`;
+      }
+            
       return this.http.get<PageResponse<Peritaje>>(url);
   
     }

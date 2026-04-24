@@ -14,13 +14,18 @@ export class AseguradoService {
   
   constructor(private http: HttpClient) { }
 
-  listarAsegurados(page: number, size: number, identificacion?: string) {
+  listarAsegurados(page: number, size: number, identificacion?: string, nombres?: string) {
     let url = `${this.api}/asegurados?page=${page}&size=${size}`;
 
     if (identificacion) {
       url += `&identificacion=${identificacion}`;
     }
 
+    if (nombres) {
+      url += `&nombres=${nombres}`;
+    }
+
+    console.log(url)
     return this.http.get<PageResponse<Asegurado>>(url);
   }
 

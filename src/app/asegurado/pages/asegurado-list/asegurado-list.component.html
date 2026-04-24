@@ -1,8 +1,7 @@
 <div class="page-container">
 
-  <h1 *ngIf="!mostrarDetalle" class="title">Asegurados</h1>
-
-  <div *ngIf="!mostrarDetalle" class="card">
+  <div class="header">
+    <h4>Asegurados</h4>
 
     <div class="card-header">
       <mat-form-field appearance="outline" class="search-field">
@@ -11,17 +10,24 @@
           matInput
           placeholder="Buscar por identificación..."
           [(ngModel)]="filtroIdentificacion"
-          (keyup)="buscarAsegurado()"
         />
       </mat-form-field>
 
-      <button 
-        mat-stroked-button 
-        color="primary"
-        (click)="irNuevo()">
-        +
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <input
+          matInput
+          placeholder="Buscar por nombres..."
+          [(ngModel)]="filtroNombres"
+        />
+      </mat-form-field>
+      
+      <button mat-raised-button color="primary"
+              routerLink="/asegurados/nuevo">
+        Nuevo asegurado
       </button>
-    </div>
+    </div>    
+  </div>
 
     <div class="card-body">
 
@@ -80,89 +86,5 @@
           (page)="onPageChange($event)">
         </mat-paginator>
     </div>
-
-  </div>
-
-  <div *ngIf="mostrarDetalle" class="detalle-container">
-
-    <button mat-stroked-button color="primary" (click)="volver()" class="back-btn">
-        ←
-    </button>
-    
-    <mat-card *ngIf="mostrarDetalle" class="detalle-card">
-
-    <h3>{{ aseguradoSeleccionado.identificacion }} - {{ aseguradoSeleccionado.nombres }}</h3>
-
-    <p><b>Fecha Ingreso:</b> {{ aseguradoSeleccionado.fecha_creacion }}</p>
-    <p><b>Teléfono:</b> {{ aseguradoSeleccionado.telefono }}</p>
-    <p><b>Celular:</b> {{ aseguradoSeleccionado.celular }}</p>
-    <p><b>Dirección:</b> {{ aseguradoSeleccionado.direccion }}</p>
-
-    <h4>Aseguradora</h4>
-
-    <h3>{{ aseguradoSeleccionado.empresa.nombre }}</h3>
-
-    <h4>Vehiculos</h4>
-
-    <table mat-table [dataSource]="vehiculosDataSource">
-
-        <ng-container matColumnDef="placa">
-        <th mat-header-cell *matHeaderCellDef>Placa</th>
-        <td mat-cell *matCellDef="let c">{{ c.placa }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="marca">
-        <th mat-header-cell *matHeaderCellDef>Marca</th>
-        <td mat-cell *matCellDef="let c">{{ c.marca }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="modelo">
-        <th mat-header-cell *matHeaderCellDef>Modelo</th>
-        <td mat-cell *matCellDef="let c">{{ c.modelo }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="anio_fabricacion">
-        <th mat-header-cell *matHeaderCellDef>Año</th>
-        <td mat-cell *matCellDef="let c">{{ c.anio_fabricacion }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="color">
-        <th mat-header-cell *matHeaderCellDef>Color</th>
-        <td mat-cell *matCellDef="let c">{{ c.color }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="fechacaducidad">
-        <th mat-header-cell *matHeaderCellDef>F. Caducidad</th>
-        <td mat-cell *matCellDef="let c">{{ c.fechaCaducidad }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="fechamatricula">
-        <th mat-header-cell *matHeaderCellDef>F. Matricula</th>
-        <td mat-cell *matCellDef="let c">{{ c.fechaMatricula }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="acciones">
-  
-          <th mat-header-cell *matHeaderCellDef> Acciones </th>
-
-          <td mat-cell *matCellDef="let c">
-            <button 
-              type="button"
-              mat-mini-fab 
-              color="primary"
-              (click)="verDetalleVehiculo(c.id)">
-              <mat-icon>visibility</mat-icon>
-            </button>
-          </td>
-
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones']"></tr>
-        <tr mat-row *matRowDef="let row; columns: ['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones'];"></tr>
-
-    </table>
-
-</mat-card>
-  </div>
 
 </div>
