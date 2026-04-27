@@ -1,5 +1,5 @@
-import { Component, ViewChild, AfterViewInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { MatPaginator, PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AseguradoService } from '../../services/asegurado.service';
@@ -15,6 +15,7 @@ import { Vehiculo } from 'src/app/dto/vehiculo';
 import { Router } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-asegurado-list',
@@ -32,9 +33,9 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './asegurado-list.component.html',
   styleUrl: './asegurado-list.component.scss'
 })
-export class AseguradoListComponent implements AfterViewInit {
+export class AseguradoListComponent implements OnInit {
     displayedColumns: string[] = ['identificacion', 'nombres', 'empresa', 'direccion', 'fecha_creacion', 'acciones'];
-    dataSource = new MatTableDataSource<Asegurado>([]);
+    dataSource: any[] = [];
     vehiculosDataSource = new MatTableDataSource<Vehiculo>([]);
     citacionesDataSource = new MatTableDataSource<CitacionVehiculo>([]);
   
@@ -44,12 +45,13 @@ export class AseguradoListComponent implements AfterViewInit {
     pageIndex = 0;
     filtroIdentificacion: string = '';
     filtroNombres: string = '';
+    form: any;
     aseguradoSeleccionado: any = null;
     mostrarDetalle = false;
   
     @ViewChild(MatPaginator) paginator!: MatPaginator;
   
-    constructor(private service: AseguradoService, private router: Router) {}
+    constructor(private service: AseguradoService, private router: Router,  private fb: FormBuilder) {}
   
     columnasVehiculos = [
       'placa',
@@ -60,21 +62,45 @@ export class AseguradoListComponent implements AfterViewInit {
       'acciones'
     ];
 
-    ngAfterViewInit() {
-      this.dataSource.paginator = this.paginator;
+    ngOnInit() {
+      this.form = this.fb.group({
+        filtroIdentificacion: [''],
+        filtroNombres: ['']
+      });
+
       this.cargarDatos();
+
+      this.form.valueChanges
+        .pipe(debounceTime(400))
+        .subscribe((values: any) => {
+          this.pageIndex = 0;
+          this.buscarAsegurados(values);
+        });  
     }
-  
-    cargarDatos() {
+
+    buscarAsegurados(filtros: any) {
       this.service.listarAsegurados(
         this.pageIndex,
         this.pageSize,
-        this.filtroIdentificacion,
-        this.filtroNombres
+        filtros.filtroIdentificacion,
+        filtros.filtroNombres
+      ).subscribe(data => {
+        this.dataSource = data.data;
+        this.totalElements = data.total;
+      });
+    }
+  
+    cargarDatos() {
+      const filtros = this.form.getRawValue();
+
+      this.service.listarAsegurados(
+        this.pageIndex,
+        this.pageSize,
+        filtros.filtroIdentificacion,
+        filtros.filtroNombres
       ).subscribe(res => {
-        this.dataSource.data = res.data;
+        this.dataSource = res.data;
         this.totalElements = res.total;
-        console.log(res)
       });
     }
   

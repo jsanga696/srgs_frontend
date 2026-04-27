@@ -122,8 +122,8 @@ export class AseguradoFormComponent implements OnInit {
   }
 
   cargarEmpresas() {
-    this.empresaService.listarEmpresas().subscribe(res => {
-      this.empresas = res;
+    this.empresaService.listarEmpresas(0, 20).subscribe(res => {
+      this.empresas = res.data;
 
       this.empresas.sort((a, b) =>
         a.nombre.localeCompare(b.nombre)

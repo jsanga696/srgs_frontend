@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Empresa } from 'src/app/dto/empresa';
+import { PageResponse } from 'src/app/dto/page_response';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,10 +14,23 @@ export class EmpresaService {
   constructor(private http: HttpClient) { }
 
 
-  listarEmpresas() {
-    let url = `${this.api}/empresas`;
+  listarEmpresas(page: number, size: number, identificacion?: string, nombres?: string, razon_social?: string) {
+    let url = `${this.api}/empresas?page=${page}&size=${size}`;
 
-    return this.http.get<Empresa[]>(url);
+    if (identificacion) {
+      url += `&identificacion=${identificacion}`;
+    }
+
+    if (nombres) {
+      url += `&nombres=${nombres}`;
+    }
+
+    if (razon_social) {
+      url += `&razon_social=${razon_social}`;
+    }
+
+    console.log(url);
+    return this.http.get<PageResponse<Empresa>>(url);
 
   }
 

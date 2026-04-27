@@ -55,6 +55,7 @@ export class PeritajeListComponent implements OnInit {
       this.form.valueChanges
         .pipe(debounceTime(400))
         .subscribe((values: any) => {
+          console.log("Entra");
           this.pageIndex = 0;
           this.buscarPeritajes(values);
         });  

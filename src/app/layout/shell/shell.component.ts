@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { RouterModule  } from '@angular/router';
+import { Router, RouterModule  } from '@angular/router';
 
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { finalize } from 'rxjs/operators';
 import { LoadingService } from '../../services/loading.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { LoginService } from 'src/app/features/auth/login/services/login.service';
 
 @Component({
   standalone: true,
@@ -42,7 +43,7 @@ export class ShellComponent {
     }, 200);
   }
 
-  constructor(private loadingService: LoadingService) {}
+  constructor(private loadingService: LoadingService, private router: Router, private loginService: LoginService) {}
 
   ngOnInit() {
     this.loadingService.loading$.subscribe(value => {
@@ -51,6 +52,7 @@ export class ShellComponent {
   }
 
   salir(){
-    console.log("Salida");
+    this.loginService.logout();
+    this.router.navigate(['/login']);
   }
 }
