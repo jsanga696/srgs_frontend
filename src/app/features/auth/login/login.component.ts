@@ -46,25 +46,25 @@ export class LoginComponent {
   }*/
 
     login() {
-    if (this.form.invalid) return;
+      if (this.form.invalid) return;
 
-    const { username, password } = this.form.value;
+      const { username, password } = this.form.value;
 
-    this.loginService.login(username as string, password as string).subscribe({
-      next: (res) => {
-          this.loginService.guardarToken(res);
-          this.router.navigate(['/vehiculos']);
-          this.snack.open("Bienvenido", 'OK', {
-              duration: 3000,
-              panelClass: ['snackbar-success']
-            });
-      },
-      error: (err) => {
-        this.snack.open("Credenciales inválidas", 'Error', {
-              duration: 3000,
-              panelClass: ['snackbar-error']
-            });
-      }
-    });
+      this.loginService.login(username as string, password as string).subscribe({
+        next: (res) => {
+            this.loginService.guardarToken(res.token);
+            this.router.navigate(['/vehiculos']);
+            this.snack.open("Bienvenido", 'OK', {
+                duration: 3000,
+                panelClass: ['snackbar-success']
+              });
+        },
+        error: (err) => {
+          this.snack.open("Credenciales inválidas", 'Error', {
+                duration: 3000,
+                panelClass: ['snackbar-error']
+              });
+        }
+      });
   }
 }
