@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ReactiveFormsModule, Validators, FormBuilder, FormControl } from '@angular/forms';
@@ -13,13 +14,14 @@ import { SiniestrosService } from 'src/app/siniestros/services/siniestros.servic
 import { LoadingService } from 'src/app/services/loading.service';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { debounceTime, finalize, map, of, switchMap } from 'rxjs';
-import { AseguradoService } from 'src/app/asegurado/services/asegurado.service';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 import { CommonModule } from '@angular/common';
 import { PageResponse } from 'src/app/dto/page_response';
 import { Siniestro } from 'src/app/dto/siniestro';
 import { PeritajeService } from '../../services/peritaje.service';
 import { ConfirmDialogComponent } from '../../../layout/confirm_dialog/confirm-dialog.component';
+import { Peritaje } from 'src/app/dto/peritaje';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-peritaje-form',
@@ -33,6 +35,8 @@ import { ConfirmDialogComponent } from '../../../layout/confirm_dialog/confirm-d
     MatCheckboxModule,
     MatSnackBarModule,
     MatAutocompleteModule,
+    MatCardModule,
+    MatDividerModule,
     MatIconModule
   ],
   templateUrl: './peritaje-form.component.html',
@@ -47,9 +51,10 @@ export class PeritajeFormComponent implements OnInit {
   form: any;
   siniestroCtrl = new FormControl();
   siniestrosFiltrados: any[] = [];
-
+  modoVer = false;
   peritoCtrl = new FormControl();
   peritosFiltrados: any[] = [];
+  peritaje: Peritaje | undefined;
 
   constructor(private service: SiniestrosService, 
     private loadingService: LoadingService, 
@@ -112,12 +117,35 @@ export class PeritajeFormComponent implements OnInit {
     .subscribe(data => {
       this.peritosFiltrados = data;
     });
+
+    const url = this.router.url;
+
+    if (url.includes('ver')) {
+      this.modoVer = true;
+    } else if (url.includes('editar')) {
+      this.esEdicion = true;
+    }
+  }
+
+  descargarArchivo(id: string, nombre: string) {
+    this.peritajesService.descargarArchivo(id).subscribe(blob => {
+
+      const url = window.URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = nombre; // 👈 nombre archivo
+      a.click();
+
+      window.URL.revokeObjectURL(url);
+    });
   }
 
   cargar() {
-    this.service.obtenerPorId(this.id)
+    this.peritajesService.obtenerPorId(this.id)
       .subscribe(data => {
         this.form.patchValue(data);
+        this.peritaje = data;
       });
   }
 

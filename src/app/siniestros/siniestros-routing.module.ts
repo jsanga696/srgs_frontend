@@ -6,7 +6,8 @@ import { FormSiniestrosComponent } from './pages/form-siniestros/form-siniestros
 const routes: Routes = [
   { path: '', component: ListaSiniestrosComponent },
   { path: 'nuevo', component: FormSiniestrosComponent },
-  { path: 'editar/:id', component: FormSiniestrosComponent }
+  { path: 'editar/:id', component: FormSiniestrosComponent },
+  { path: 'ver/:id', component: FormSiniestrosComponent }
 ];
 
 @NgModule({

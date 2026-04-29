@@ -18,6 +18,9 @@ import { AseguradoService } from 'src/app/asegurado/services/asegurado.service';
 import { UsuariosService } from 'src/app/usuarios/services/usuarios.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../layout/confirm_dialog/confirm-dialog.component';
+import { Siniestro } from 'src/app/dto/siniestro';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-form-siniestros',
@@ -31,6 +34,8 @@ import { ConfirmDialogComponent } from '../../../layout/confirm_dialog/confirm-d
   MatCheckboxModule,
   MatSnackBarModule,
   MatAutocompleteModule,
+  MatDividerModule,
+  MatCardModule,
   MatIconModule],
   templateUrl: './form-siniestros.component.html',
   styleUrl: './form-siniestros.component.scss'
@@ -47,6 +52,8 @@ export class FormSiniestrosComponent implements OnInit {
 
   peritoCtrl = new FormControl();
   peritosFiltrados: any[] = [];
+  modoVer = false;
+  siniestro: Siniestro | undefined;
 
   constructor(private service: SiniestrosService, 
     private loadingService: LoadingService, 
@@ -106,6 +113,14 @@ export class FormSiniestrosComponent implements OnInit {
     .subscribe(data => {
       this.peritosFiltrados = data;
     });
+
+    const url = this.router.url;
+    
+    if (url.includes('ver')) {
+      this.modoVer = true;
+    } else if (url.includes('editar')) {
+      this.esEdicion = true;
+    }
   }
 
   getFechaActual(): string {
@@ -164,6 +179,8 @@ export class FormSiniestrosComponent implements OnInit {
     this.service.obtenerPorId(this.id)
       .subscribe(data => {
         this.form.patchValue(data);
+        this.siniestro = data;
+        console.log(data);
       });
   }
 

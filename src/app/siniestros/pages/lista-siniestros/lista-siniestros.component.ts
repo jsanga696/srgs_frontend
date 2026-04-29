@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -41,7 +41,7 @@ export class ListaSiniestrosComponent implements OnInit {
   filtroAsegurado: string = '';
   form: any;
 
-  constructor(private service: SiniestrosService, private fb: FormBuilder) {}
+  constructor(private service: SiniestrosService, private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -69,7 +69,6 @@ export class ListaSiniestrosComponent implements OnInit {
     ).subscribe(data => {
       this.dataSource = data.data;
       this.totalElements = data.total;
-      console.log(data);
     });
   }
 
@@ -85,7 +84,6 @@ export class ListaSiniestrosComponent implements OnInit {
     ).subscribe(data => {
       this.dataSource = data.data;
       this.totalElements = data.total;
-      console.log(data);
     });
   }
 
@@ -93,5 +91,9 @@ export class ListaSiniestrosComponent implements OnInit {
     this.pageIndex = event.pageIndex;
     this.pageSize = event.pageSize;
     this.cargar();
+  }
+
+  verDetalle(siniestro: any){
+    this.router.navigate(['/siniestros/ver', siniestro.id]);
   }
 }

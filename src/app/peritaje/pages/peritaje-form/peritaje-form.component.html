@@ -1,23 +1,17 @@
-<h2>{{ esEdicion ? 'Editar peritaje' : 'Nuevo peritaje' }}</h2>
+<form *ngIf="modoVer === false" [formGroup]="form">
 
-<form [formGroup]="form">
-
-    <mat-form-field appearance="outline" class="full-width">
+  <mat-form-field appearance="outline" class="full-width">
 
     <mat-label>Siniestro</mat-label>
 
-    <input matInput 
-            [formControl]="siniestroCtrl"
-            [matAutocomplete]="auto">
+    <input matInput [formControl]="siniestroCtrl" [matAutocomplete]="auto">
 
-    <mat-autocomplete #auto="matAutocomplete"
-                        [displayWith]="displaySiniestro"
-                        (optionSelected)="seleccionarSiniestro($event)">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displaySiniestro"
+      (optionSelected)="seleccionarSiniestro($event)">
 
-        <mat-option *ngFor="let a of siniestrosFiltrados"
-                    [value]="a">
+      <mat-option *ngFor="let a of siniestrosFiltrados" [value]="a">
         {{ a.identificacion_asegurado }} - {{ a.nombre_asegurado }}
-        </mat-option>
+      </mat-option>
 
     </mat-autocomplete>
 
@@ -27,8 +21,7 @@
   <mat-form-field appearance="outline" class="full-width">
 
     <mat-label>Asegurado</mat-label>
-    <input matInput 
-          formControlName="nombre_asegurado" readonly>
+    <input matInput formControlName="nombre_asegurado" readonly>
 
   </mat-form-field>
 
@@ -36,8 +29,7 @@
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Placa</mat-label>
 
-    <input matInput 
-          formControlName="placaVehiculo" readonly>
+    <input matInput formControlName="placaVehiculo" readonly>
 
   </mat-form-field>
 
@@ -46,18 +38,14 @@
 
     <mat-label>Perito</mat-label>
 
-    <input matInput 
-            [formControl]="peritoCtrl"
-            [matAutocomplete]="autoPerito">
+    <input matInput [formControl]="peritoCtrl" [matAutocomplete]="autoPerito">
 
-    <mat-autocomplete #autoPerito="matAutocomplete"
-                        [displayWith]="displayPerito"
-                        (optionSelected)="seleccionarPerito($event)">
+    <mat-autocomplete #autoPerito="matAutocomplete" [displayWith]="displayPerito"
+      (optionSelected)="seleccionarPerito($event)">
 
-        <mat-option *ngFor="let a of peritosFiltrados"
-                    [value]="a">
+      <mat-option *ngFor="let a of peritosFiltrados" [value]="a">
         {{ a.identificacion }} - {{ a.nombres }}
-        </mat-option>
+      </mat-option>
 
     </mat-autocomplete>
 
@@ -65,9 +53,7 @@
 
   <mat-form-field appearance="outline" class="full-width">
     <mat-label>Fecha y hora</mat-label>
-    <input matInput 
-          type="datetime-local" 
-          formControlName="fecha">
+    <input matInput type="datetime-local" formControlName="fecha">
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="full-width">
@@ -100,46 +86,37 @@
 
   <hr class="divider">
 
-  <input 
-    type="file" 
-    hidden 
-    #fileInput
-    multiple 
-    (change)="onFileSelected($event)"
-    [disabled]="!form.get('nombre_asegurado')?.value"
-    />
+  <input type="file" hidden #fileInput multiple (change)="onFileSelected($event)"
+    [disabled]="!form.get('nombre_asegurado')?.value" />
 
-    <button 
-    mat-raised-button 
-    color="primary"
-    (click)="fileInput.click()"
+  <button mat-raised-button color="primary" (click)="fileInput.click()"
     [disabled]="!form.get('nombre_asegurado')?.value">
 
     <mat-icon>upload</mat-icon>
     Seleccionar archivos
 
-    </button>
+  </button>
 
-    <div class="preview-container">
+  <div class="preview-container">
 
     <div class="preview-card" *ngFor="let p of previews; let i = index">
 
-        <!-- Imagen -->
-        <img *ngIf="p.file.type.startsWith('image')" [src]="p.url" />
+      <!-- Imagen -->
+      <img *ngIf="p.file.type.startsWith('image')" [src]="p.url" />
 
-        <!-- PDF / otros -->
-        <div *ngIf="!p.file.type.startsWith('image')" class="file-icon">
+      <!-- PDF / otros -->
+      <div *ngIf="!p.file.type.startsWith('image')" class="file-icon">
         📄 {{ p.file.name }}
-        </div>
+      </div>
 
-        <!-- Botón eliminar -->
-        <button mat-icon-button color="warn" (click)="eliminarArchivo(i)">
+      <!-- Botón eliminar -->
+      <button mat-icon-button color="warn" (click)="eliminarArchivo(i)">
         <mat-icon>delete</mat-icon>
-        </button>
+      </button>
 
     </div>
 
-    </div>
+  </div>
 
   <div class="actions">
 
@@ -153,3 +130,82 @@
   </div>
 
 </form>
+
+<div *ngIf="modoVer" class="detalle-container">
+
+  <mat-card class="detalle-card">
+
+    <mat-card-header>
+      <mat-icon class="icono">description</mat-icon>
+
+      <div>
+        <mat-card-title>
+          {{ peritaje?.codigo }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          Detalle de Peritaje
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+
+      <div class="detalle-grid">
+
+        <div class="detalle-item">
+          <span class="label">Asegurado</span>
+          <span class="valor">{{ peritaje?.nombre_asegurado }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Vehículo</span>
+          <span class="valor">{{ peritaje?.placa }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Perito</span>
+          <span class="valor">{{ peritaje?.nombre_perito }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Procede</span>
+          <span class="valor">{{ peritaje?.procede === true ? 'Sí' : 'No' }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Fecha</span>
+          <span class="valor">{{ peritaje?.fecha | date:'short' }}</span>
+        </div>
+
+        <div class="detalle-item full-width">
+          <span class="label">Detalles</span>
+          <span class="valor">{{ peritaje?.detalles }}</span>
+        </div>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <div class="preview-container" *ngIf="peritaje?.archivos?.length">
+
+      <div class="preview-card" *ngFor="let archivo of peritaje?.archivos">
+
+        <div class="file-icon">
+          <mat-icon>description</mat-icon>
+          <span>{{ archivo.nombre }}</span>
+        </div>
+
+        <!-- Acción -->
+        <button mat-icon-button color="primary" (click)="descargarArchivo(archivo.id!, archivo.nombre!)">
+          <mat-icon>open_in_new</mat-icon>
+        </button>
+
+      </div>
+
+    </div>
+  </mat-card>
+</div>

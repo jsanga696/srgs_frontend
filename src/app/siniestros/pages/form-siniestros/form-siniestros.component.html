@@ -1,6 +1,6 @@
-<h2>{{ esEdicion ? 'Editar siniestro' : 'Nuevo siniestro' }}</h2>
+<form *ngIf="modoVer === false" [formGroup]="form">
 
-<form [formGroup]="form">
+  <h2>{{ esEdicion ? 'Editar siniestro' : 'Nuevo siniestro' }}</h2>
 
   <!-- ASEGURADO -->
   <mat-form-field appearance="outline" class="full-width">
@@ -119,3 +119,75 @@
   </div>
 
 </form>
+
+<div *ngIf="modoVer" class="detalle-container">
+
+  <mat-card class="detalle-card">
+
+    <mat-card-header>
+      <mat-icon class="icono">description</mat-icon>
+
+      <div>
+        <mat-card-title>
+          {{ siniestro?.codigo }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          Detalle de Siniestro
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+
+      <div class="detalle-grid">
+
+        <div class="detalle-item">
+          <span class="label">Asegurado</span>
+          <span class="valor">{{ siniestro?.nombre_asegurado }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Vehículo</span>
+          <span class="valor">{{ siniestro?.placa }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Contraparte</span>
+          <span class="valor">{{ siniestro?.nombre_contraparte }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Fecha</span>
+          <span class="valor">{{ siniestro?.fecha | date:'short' }}</span>
+        </div>
+
+        <div class="detalle-item full-width">
+          <span class="label">Detalles</span>
+          <span class="valor">{{ siniestro?.detalles }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Personas heridas</span>
+          <span class="valor">{{ siniestro?.personasHeridas === true ? 'Sí' : 'No' }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Necesita Grúa</span>
+          <span class="valor">{{ siniestro?.necesitaGrua === true ? 'Sí' : 'No' }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Es persona natural</span>
+          <span class="valor">{{ siniestro?.esPersonaNatural === true ? 'Sí' : 'No' }}</span>
+        </div>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+  </mat-card>
+</div>

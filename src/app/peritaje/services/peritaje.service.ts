@@ -29,6 +29,12 @@ export class PeritajeService {
       return this.http.get<PageResponse<Peritaje>>(url);
   
     }
+
+    descargarArchivo(id: string) {
+      return this.http.get(`http://localhost:8080/files/${id}`, {
+        responseType: 'blob' 
+      });
+    }
   
     obtenerPorId(id: string){
       return this.http.get<Peritaje>(`${this.api}/peritajes/${id}`);

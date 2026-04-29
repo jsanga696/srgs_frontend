@@ -6,7 +6,8 @@ import { PeritajeListComponent } from './pages/peritaje-list/peritaje-list.compo
 const routes: Routes = [
   { path: '', component: PeritajeListComponent },
   { path: 'nuevo', component: PeritajeFormComponent },
-  { path: 'editar/:id', component: PeritajeFormComponent }
+  { path: 'editar/:id', component: PeritajeFormComponent },
+  { path: 'ver/:id', component: PeritajeFormComponent }
 ];
 
 @NgModule({

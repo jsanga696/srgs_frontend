@@ -78,9 +78,13 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let s">
-        <button mat-icon-button color="primary" *ngIf="s?.estado === 'Iniciado'"
+        <button mat-icon-button color="primary" 
                 [routerLink]="['/peritajes/editar', s.id]">
           <mat-icon>edit</mat-icon>
+        </button>
+
+        <button mat-icon-button color="primary" (click)="verDetalle(s)">
+          <mat-icon>visibility</mat-icon>
         </button>
       </td>
     </ng-container>

@@ -18,6 +18,7 @@ import { Asegurado } from 'src/app/dto/asegurado';
 import { AseguradoService } from '../../services/asegurado.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Vehiculo } from 'src/app/dto/vehiculo';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-asegurado-form',
@@ -33,6 +34,7 @@ import { Vehiculo } from 'src/app/dto/vehiculo';
     MatCheckboxModule,
     MatIconModule,
     MatSnackBarModule,
+    MatDividerModule,
     MatTableModule],
   templateUrl: './asegurado-form.component.html',
   styleUrl: './asegurado-form.component.scss'

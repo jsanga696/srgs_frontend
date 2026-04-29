@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -42,7 +42,7 @@ export class PeritajeListComponent implements OnInit {
     filtroAsegurado: string = '';
     form: any;
   
-    constructor(private service: PeritajeService, private fb: FormBuilder) {}
+    constructor(private service: PeritajeService, private fb: FormBuilder, private router: Router) {}
   
     ngOnInit() {
       this.form = this.fb.group({
@@ -58,7 +58,7 @@ export class PeritajeListComponent implements OnInit {
           console.log("Entra");
           this.pageIndex = 0;
           this.buscarPeritajes(values);
-        });  
+        });
     }
   
     buscarPeritajes(filtros: any) {
@@ -92,5 +92,9 @@ export class PeritajeListComponent implements OnInit {
         this.pageSize = event.pageSize;
         this.cargar();
       }
+
+  verDetalle(vehiculo: any) {
+    this.router.navigate(['/peritajes/ver', vehiculo.id]);
+  }
 
 }

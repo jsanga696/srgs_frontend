@@ -82,38 +82,27 @@
     </div>
 
   </mat-card>
-  
+
   <mat-card>
 
     <div class="vehiculos-header">
       <h2>Vehículos</h2>
 
-      <button 
-        type="button"
-        mat-raised-button 
-        color="primary"
-        (click)="agregarVehiculo()">
+      <button type="button" mat-raised-button color="primary" (click)="agregarVehiculo()">
         + Agregar vehículo
       </button>
     </div>
 
     <div formArrayName="vehiculos">
 
-      <div 
-        *ngFor="let v of vehiculos.controls; let i = index" 
-        [formGroupName]="i"
-        class="vehiculo-item">
+      <div *ngFor="let v of vehiculos.controls; let i = index" [formGroupName]="i" class="vehiculo-item">
 
         <mat-card class="vehiculo-card">
 
           <div class="vehiculo-title">
             <span>Vehículo {{ i + 1 }}</span>
 
-            <button 
-              type="button"
-              mat-icon-button 
-              color="warn"
-              (click)="eliminarVehiculo(i)">
+            <button type="button" mat-icon-button color="warn" (click)="eliminarVehiculo(i)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -168,7 +157,7 @@
             </div>
           </div>
 
-          
+
 
         </mat-card>
 
@@ -178,25 +167,13 @@
 
   </mat-card>
 
-  <!-- ========================= -->
-  <!-- ACCIONES -->
-  <!-- ========================= -->
   <div class="acciones">
 
-    <button 
-      type="button"
-      mat-stroked-button 
-      color="primary"
-      (click)="volver()">
+    <button type="button" mat-stroked-button color="primary" (click)="volver()">
       Cancelar
     </button>
 
-    <button 
-      type="button"
-      mat-raised-button 
-      color="accent"
-      (click)="guardar()"
-      [disabled]="form.invalid">
+    <button type="button" mat-raised-button color="accent" (click)="guardar()" [disabled]="form.invalid">
       Guardar
     </button>
 
@@ -204,58 +181,110 @@
 
 </form>
 
-<div *ngIf="modoVer === true" class="detalle-container">
-  
-  <mat-card *ngIf="modoVer" class="detalle-card">
+<div *ngIf="modoVer" class="detalle-container">
 
-  <h3>{{ aseguradoSeleccionado?.identificacion }} - {{ aseguradoSeleccionado?.nombres }}</h3>
+  <mat-card class="detalle-card">
 
-  <p><b>Fecha Ingreso:</b> {{ aseguradoSeleccionado?.fecha_ingreso }}</p>
-  <p><b>Teléfono:</b> {{ aseguradoSeleccionado?.telefono }}</p>
-  <p><b>Celular:</b> {{ aseguradoSeleccionado?.celular }}</p>
-  <p><b>Dirección:</b> {{ aseguradoSeleccionado?.direccion }}</p>
+    <mat-card-header>
+      <mat-icon class="icono">description</mat-icon>
 
-  <h4>Aseguradora</h4>
+      <div>
+        <mat-card-title>
+          {{ aseguradoSeleccionado?.identificacion }} - {{ aseguradoSeleccionado?.nombres }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          Detalle de Asegurado
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header>
 
-  <h3>{{ aseguradoSeleccionado?.empresa?.nombre }}</h3>
+    <mat-divider></mat-divider>
 
-  <h4>Vehiculos</h4>
+    <mat-card-content>
 
-  <table mat-table [dataSource]="vehiculosDataSource">
+      <div class="detalle-grid">
+
+        <div class="detalle-item">
+          <span class="label">Celular</span>
+          <span class="valor">{{ aseguradoSeleccionado?.celular }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Teléfono</span>
+          <span class="valor">{{ aseguradoSeleccionado?.telefono }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">E-mail</span>
+          <span class="valor">{{ aseguradoSeleccionado?.email }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Dirección</span>
+          <span class="valor">{{ aseguradoSeleccionado?.direccion }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Fecha</span>
+          <span class="valor">{{ aseguradoSeleccionado?.fecha_ingreso | date:'short' }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">País</span>
+          <span class="valor">{{ aseguradoSeleccionado?.pais }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Provincia</span>
+          <span class="valor">{{ aseguradoSeleccionado?.provincia }}</span>
+        </div>
+
+        <div class="detalle-item">
+          <span class="label">Ciudad</span>
+          <span class="valor">{{ aseguradoSeleccionado?.ciudad }}</span>
+        </div>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <table mat-table [dataSource]="vehiculosDataSource">
 
       <ng-container matColumnDef="placa">
-      <th mat-header-cell *matHeaderCellDef>Placa</th>
-      <td mat-cell *matCellDef="let c">{{ c.placa }}</td>
+        <th mat-header-cell *matHeaderCellDef>Placa</th>
+        <td mat-cell *matCellDef="let c">{{ c.placa }}</td>
       </ng-container>
 
       <ng-container matColumnDef="marca">
-      <th mat-header-cell *matHeaderCellDef>Marca</th>
-      <td mat-cell *matCellDef="let c">{{ c.marca }}</td>
+        <th mat-header-cell *matHeaderCellDef>Marca</th>
+        <td mat-cell *matCellDef="let c">{{ c.marca }}</td>
       </ng-container>
 
       <ng-container matColumnDef="modelo">
-      <th mat-header-cell *matHeaderCellDef>Modelo</th>
-      <td mat-cell *matCellDef="let c">{{ c.modelo }}</td>
+        <th mat-header-cell *matHeaderCellDef>Modelo</th>
+        <td mat-cell *matCellDef="let c">{{ c.modelo }}</td>
       </ng-container>
 
       <ng-container matColumnDef="anio_fabricacion">
-      <th mat-header-cell *matHeaderCellDef>Año</th>
-      <td mat-cell *matCellDef="let c">{{ c.anio_fabricacion }}</td>
+        <th mat-header-cell *matHeaderCellDef>Año</th>
+        <td mat-cell *matCellDef="let c">{{ c.anio_fabricacion }}</td>
       </ng-container>
 
       <ng-container matColumnDef="color">
-      <th mat-header-cell *matHeaderCellDef>Color</th>
-      <td mat-cell *matCellDef="let c">{{ c.color }}</td>
+        <th mat-header-cell *matHeaderCellDef>Color</th>
+        <td mat-cell *matCellDef="let c">{{ c.color }}</td>
       </ng-container>
 
       <ng-container matColumnDef="fechacaducidad">
-      <th mat-header-cell *matHeaderCellDef>F. Caducidad</th>
-      <td mat-cell *matCellDef="let c">{{ c.fechaCaducidad }}</td>
+        <th mat-header-cell *matHeaderCellDef>F. Caducidad</th>
+        <td mat-cell *matCellDef="let c">{{ c.fechaCaducidad }}</td>
       </ng-container>
 
       <ng-container matColumnDef="fechamatricula">
-      <th mat-header-cell *matHeaderCellDef>F. Matricula</th>
-      <td mat-cell *matCellDef="let c">{{ c.fechaMatricula }}</td>
+        <th mat-header-cell *matHeaderCellDef>F. Matricula</th>
+        <td mat-cell *matCellDef="let c">{{ c.fechaMatricula }}</td>
       </ng-container>
 
       <ng-container matColumnDef="acciones">
@@ -263,21 +292,21 @@
         <th mat-header-cell *matHeaderCellDef> Acciones </th>
 
         <td mat-cell *matCellDef="let c">
-          <button 
-            type="button"
-            mat-mini-fab 
-            color="primary"
-            (click)="verDetalleVehiculo(c.id)">
+          <button type="button" mat-mini-fab color="primary" (click)="verDetalleVehiculo(c.id)">
             <mat-icon>visibility</mat-icon>
           </button>
         </td>
 
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones']"></tr>
-      <tr mat-row *matRowDef="let row; columns: ['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones'];"></tr>
+      <tr mat-header-row
+        *matHeaderRowDef="['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones']">
+      </tr>
+      <tr mat-row
+        *matRowDef="let row; columns: ['placa','marca', 'modelo', 'anio_fabricacion', 'color', 'fechacaducidad', 'fechamatricula', 'acciones'];">
+      </tr>
 
     </table>
-
   </mat-card>
 </div>
+

@@ -2,16 +2,16 @@ export interface Siniestro {
 
     id: string;
 
+    codigo: string;
     id_asegurado: string;
     identificacion_asegurado: string;
     nombre_asegurado: string;
 
     id_vehiculo: string;
-    placa_vehiculo: string;
+    placa: string;
 
-    id_usuario_perito: number;    
-    identificacion_perito: string;
-    nombre_perito: string;
+    identificacion_contraparte: string;    
+    nombre_contraparte: string;
     
     fecha: Date;
     ubicacion: string;

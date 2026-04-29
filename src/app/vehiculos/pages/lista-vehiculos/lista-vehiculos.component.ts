@@ -115,9 +115,6 @@ export class ListaVehiculosComponent implements AfterViewInit {
   }
 
   verDetalle(vehiculo: any) {
-    /*this.vehiculoSeleccionado = vehiculo;
-    this.citacionesDataSource.data = vehiculo.citaciones || [];
-    this.mostrarDetalle = true;*/
     this.router.navigate(['/vehiculos/ver', vehiculo.id]);
   }
 
