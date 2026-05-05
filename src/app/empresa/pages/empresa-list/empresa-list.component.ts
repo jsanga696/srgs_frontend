@@ -38,7 +38,7 @@ export class EmpresaListComponent implements OnInit {
   filtroRuc: string = '';
   filtroNombre: string = '';
   filtroRazonSocial: string = '';
-  pageSize = 4;
+  pageSize = 10;
   pageIndex = 0;
   totalElements = 0;
   form: any;

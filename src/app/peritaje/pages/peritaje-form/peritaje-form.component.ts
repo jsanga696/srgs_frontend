@@ -167,7 +167,7 @@ export class PeritajeFormComponent implements OnInit {
         } as PageResponse<Siniestro>);
       }
   
-      return this.service.listarSiniestros(0, 10, valor, 'Iniciado');
+      return this.service.listarSiniestros(0, 10, undefined, valor, 'Iniciado');
     }
   
     seleccionarSiniestro(event: any) {
